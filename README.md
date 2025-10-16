@@ -31,5 +31,3 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 pytest -q
 ```
-
-Sube la carpeta `.github/workflows` a la raíz de tu repositorio para activar CI.
