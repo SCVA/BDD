@@ -1,6 +1,8 @@
+from pathlib import Path
 from pytest_bdd import scenarios, given, when, then, parsers
 
-scenarios('features/login.feature')
+FEATURE_FILE = Path(__file__).resolve().parents[1] / "features" / "login.feature"
+scenarios(str(FEATURE_FILE))
 
 users = {}
 dashboard_visible = False
