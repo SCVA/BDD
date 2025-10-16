@@ -1,0 +1,32 @@
+# Ajusta 'working-directory' a '.' si tu proyecto Java está en la raíz del repo
+name: ci-java-bdd
+on:
+  push: { branches: ["**"] }
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: java-bdd-template
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - name: Build & test (JUnit + Cucumber)
+        run: mvn -B -DskipTests=false test
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-bdd-reports
+          path: |
+            java-bdd-template/target/cucumber-report.html
+            java-bdd-template/target/cucumber.json
+            java-bdd-template/target/surefire-reports/**
